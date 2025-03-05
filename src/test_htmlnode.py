@@ -1,7 +1,7 @@
 import unittest
 from htmlnode import HTMLNode, LeafNode, ParentNode, text_node_to_html_node
 from textnode import TextNode, TextType
-from funcs import split_nodes_delimiter
+from funcs import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
 
 
 class TestHTMLNode(unittest.TestCase):
@@ -84,6 +84,12 @@ class TestHTMLNode(unittest.TestCase):
         html_node = text_node_to_html_node(node)
         self.assertEqual(html_node.tag, None)
         self.assertEqual(html_node.value, "This is a text node")
+    
+    def test_extract_markdown_images(self):
+        matches = extract_markdown_images(
+        "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png)"
+         )
+        self.assertListEqual([("image", "https://i.imgur.com/zjjcJKZ.png")], matches)
 
 if __name__ == "__main__":
     unittest.main()
